@@ -1,0 +1,572 @@
+<!doctype html><html><head><meta charset=utf8><meta name=viewport content="width=device-width,initial-scale=1,viewport-fit=cover"><style>:root{color-scheme:light;box-sizing:border-box;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}html{scroll-padding-top:env(safe-area-inset-top,0px)}body{margin:0;padding:0;font:14px -apple-system,BlinkMacSystemFont,sans-serif;background:#fff;color:#000}img{max-width:100%}[hidden]:not([hidden=until-found i]){display:none!important}</style></head><body>
+<title>專科護理師臨床實務評核</title>
+<meta name="claude:viewport-fit-sides" content="cover">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Noto+Sans+TC:wght@400;500;700&family=Noto+Serif+TC:wght@600;700&family=IBM+Plex+Mono:wght@500;600&display=swap">
+<style>
+/* Layout: clinical worksheet — items on the left, a live score card pinned on the right (bottom bar on phones) */
+:root{
+  --bg:#f3f5f4; --surface:#ffffff; --ink:#18282b; --muted:#5b6b6d; --line:#d9e0df;
+  --accent:#1f5f62; --accent-soft:#e2eeed; --accent-ink:#ffffff;
+  --good:#2e7d4f; --warn:#a86b12; --bad:#b03a2e; --chip:#eef2f1;
+  --f-display:"Noto Serif TC","Songti TC",serif;
+  --f-body:"Noto Sans TC","PingFang TC","Microsoft JhengHei",system-ui,sans-serif;
+  --f-num:"IBM Plex Mono",ui-monospace,Menlo,monospace;
+}
+@media (prefers-color-scheme: dark){:root:not([data-theme="light"]){
+  --bg:#111819; --surface:#182224; --ink:#e3ebea; --muted:#94a5a6; --line:#2c3a3c;
+  --accent:#5fb3ad; --accent-soft:#1f3436; --accent-ink:#0d1a1b;
+  --good:#6cc28f; --warn:#e2a64a; --bad:#ef7f72; --chip:#223032; color-scheme:dark}}
+:root[data-theme="dark"]{
+  --bg:#111819; --surface:#182224; --ink:#e3ebea; --muted:#94a5a6; --line:#2c3a3c;
+  --accent:#5fb3ad; --accent-soft:#1f3436; --accent-ink:#0d1a1b;
+  --good:#6cc28f; --warn:#e2a64a; --bad:#ef7f72; --chip:#223032; color-scheme:dark}
+*{box-sizing:border-box}
+body{background:var(--bg);color:var(--ink);font-family:var(--f-body);font-size:15px;line-height:1.55}
+.wrap{max-width:1180px;margin:0 auto;padding-block:20px 96px;padding-left:max(16px,env(safe-area-inset-left,0px));padding-right:max(16px,env(safe-area-inset-right,0px))}
+header.top{display:flex;flex-wrap:wrap;align-items:flex-end;justify-content:space-between;gap:12px;margin-bottom:16px}
+h1{font-family:var(--f-display);font-size:1.6rem;margin:0;letter-spacing:.02em;text-wrap:balance}
+.sub{color:var(--muted);font-size:.85rem;margin:2px 0 0}
+.tabs{display:flex;gap:4px;background:var(--surface);border:1px solid var(--line);border-radius:10px;padding:4px}
+.tabs button{border:0;background:none;color:var(--muted);font:inherit;font-weight:500;padding:6px 14px;border-radius:7px;cursor:pointer}
+.tabs button[aria-selected="true"]{background:var(--accent);color:var(--accent-ink)}
+button{font:inherit}
+button:focus-visible,input:focus-visible,select:focus-visible,textarea:focus-visible{outline:2px solid var(--accent);outline-offset:2px}
+.grid{display:grid;grid-template-columns:minmax(0,1fr) 340px;gap:20px;align-items:start}
+@media (max-width:900px){.grid{grid-template-columns:minmax(0,1fr)}}
+.card{background:var(--surface);border:1px solid var(--line);border-radius:12px}
+.meta{display:grid;grid-template-columns:repeat(auto-fit,minmax(150px,1fr));gap:12px;padding:16px}
+label.f{display:flex;flex-direction:column;gap:4px;font-size:.8rem;color:var(--muted);font-weight:500}
+input,select,textarea{font:inherit;font-size:.95rem;color:var(--ink);background:var(--bg);border:1px solid var(--line);border-radius:8px;padding:8px 10px;width:100%}
+.quick{display:flex;flex-wrap:wrap;align-items:center;gap:8px;padding:12px 16px;border-top:1px solid var(--line);font-size:.85rem;color:var(--muted)}
+.btn{border:1px solid var(--line);background:var(--surface);color:var(--ink);border-radius:8px;padding:6px 12px;cursor:pointer;font-weight:500}
+.btn:hover{border-color:var(--accent)}
+.btn.primary{background:var(--accent);color:var(--accent-ink);border-color:var(--accent)}
+.btn.danger{color:var(--bad)}
+.btn:disabled{opacity:.5;cursor:not-allowed}
+section.sec{margin-top:16px}
+.sec-h{display:flex;justify-content:space-between;align-items:baseline;gap:8px;padding:12px 16px;border-bottom:1px solid var(--line)}
+.sec-h h2{font-family:var(--f-display);font-size:1.05rem;margin:0}
+.sec-h h2 b{color:var(--accent);margin-right:6px}
+.num{font-family:var(--f-num);font-variant-numeric:tabular-nums}
+.sec-h .num{color:var(--muted);font-size:.85rem}
+.item{display:grid;grid-template-columns:28px minmax(0,1fr) auto;gap:6px 12px;align-items:center;padding:10px 16px;border-bottom:1px solid var(--line)}
+.item:last-child{border-bottom:0}
+.item .no{font-family:var(--f-num);color:var(--muted);font-size:.85rem}
+.item .nm{font-weight:500;min-width:0}
+.item .ds{display:block;font-size:.78rem;color:var(--muted);font-weight:400}
+.item .pts{font-size:.78rem;color:var(--muted);margin-left:6px}
+.seg{display:flex;gap:3px;flex-wrap:wrap;justify-content:flex-end}
+.seg button{min-width:38px;border:1px solid var(--line);background:var(--bg);color:var(--ink);border-radius:6px;padding:5px 6px;cursor:pointer;font-family:var(--f-num);font-size:.82rem}
+.seg button.on{background:var(--accent);border-color:var(--accent);color:var(--accent-ink)}
+.seg button.low{color:var(--muted)}
+.seg button.on.low{color:var(--accent-ink);background:var(--warn);border-color:var(--warn)}
+.seg .more{min-width:30px;color:var(--muted)}
+@media (max-width:560px){.item{grid-template-columns:24px minmax(0,1fr)}.seg{grid-column:1/-1;justify-content:flex-start}}
+.na{opacity:.45}
+.na .seg{display:none}
+.na .nm::after{content:"（此職級不評）";font-size:.78rem;color:var(--muted);font-weight:400}
+aside.panel{position:sticky;top:calc(env(safe-area-inset-top,0px) + 12px);display:flex;flex-direction:column;gap:12px}
+.score{padding:16px;display:grid;grid-template-columns:1fr auto;gap:4px 12px;align-items:end}
+.score .big{font-family:var(--f-num);font-size:2.8rem;font-weight:600;line-height:1}
+.score .big small{font-size:1rem;color:var(--muted);font-weight:500}
+.grade{font-family:var(--f-display);font-size:1.6rem;font-weight:700;padding:2px 14px;border-radius:8px;background:var(--accent-soft);color:var(--accent)}
+.grade.g-乙,.grade.g-丙{background:none;color:var(--bad);border:1px solid var(--bad)}
+.subs{grid-column:1/-1;display:grid;grid-template-columns:repeat(5,1fr);gap:4px;margin-top:10px;font-size:.75rem;color:var(--muted);text-align:center}
+.subs div{background:var(--chip);border-radius:6px;padding:4px 2px}
+.subs .num{display:block;color:var(--ink);font-size:.9rem}
+.cm{padding:16px;display:flex;flex-direction:column;gap:8px}
+.cm-h{display:flex;justify-content:space-between;align-items:center;gap:8px}
+.cm-h h3{margin:0;font-size:.95rem}
+.hint{font-size:.75rem;color:var(--muted);margin:0}
+textarea{min-height:150px;resize:vertical;line-height:1.6}
+.chips{display:flex;flex-wrap:wrap;gap:6px}
+.chips button{border:1px dashed var(--line);background:var(--chip);color:var(--ink);border-radius:14px;padding:3px 10px;font-size:.78rem;cursor:pointer;text-align:left}
+.chips button:hover{border-color:var(--accent)}
+details summary{cursor:pointer;font-size:.85rem;color:var(--accent);font-weight:500}
+details .grp{margin-top:8px;font-size:.75rem;color:var(--muted)}
+.actions{display:flex;gap:8px;flex-wrap:wrap;padding:0 16px 16px}
+.actions .btn{flex:1}
+.msg{font-size:.85rem;padding:0 16px 12px;margin:0}
+.msg.err{color:var(--bad)} .msg.ok{color:var(--good)}
+.mbar{display:none}
+@media (max-width:900px){
+  aside.panel{position:static}
+  .mbar{display:flex;position:fixed;left:0;right:0;bottom:0;z-index:5;align-items:center;justify-content:space-between;gap:12px;background:var(--surface);border-top:1px solid var(--line);padding-block:10px calc(10px + env(safe-area-inset-bottom,0px));padding-left:max(16px,env(safe-area-inset-left,0px));padding-right:max(16px,env(safe-area-inset-right,0px))}
+  .mbar .num{font-size:1.4rem;font-weight:600}
+}
+/* records */
+.rec-tools{display:flex;flex-wrap:wrap;gap:8px;padding:12px 16px;border-bottom:1px solid var(--line);align-items:center}
+.rec-tools input{max-width:260px}
+.rec-tools .sp{flex:1}
+.tbl{overflow-x:auto}
+table{border-collapse:collapse;width:100%;font-size:.88rem}
+th,td{padding:9px 12px;border-bottom:1px solid var(--line);text-align:left;white-space:nowrap}
+th{font-size:.75rem;color:var(--muted);font-weight:500;letter-spacing:.04em}
+td.r{text-align:right}
+.pill{display:inline-block;padding:0 8px;border-radius:10px;background:var(--accent-soft);color:var(--accent);font-weight:700}
+.pill.g-乙,.pill.g-丙{background:none;border:1px solid var(--bad);color:var(--bad)}
+.rowact{display:flex;gap:4px}
+.rowact .btn{padding:3px 8px;font-size:.8rem}
+.empty{padding:32px 16px;text-align:center;color:var(--muted)}
+.banner{background:var(--accent-soft);color:var(--ink);border-radius:10px;padding:10px 14px;font-size:.85rem;margin-bottom:12px}
+.banner.warn{border:1px solid var(--warn)}
+.pick{display:flex;gap:6px}
+.pick select{flex:1;min-width:0}
+.pick .btn{white-space:nowrap;padding:6px 10px}
+.addp{display:grid;grid-template-columns:repeat(auto-fit,minmax(140px,1fr));gap:12px;padding:12px 16px;border-top:1px dashed var(--line);background:var(--accent-soft);align-items:end}
+.addbtns{display:flex;gap:6px}
+.addp .msg{grid-column:1/-1;padding:0}
+@media (max-width:560px){label.f[style]{grid-column:auto!important}}
+</style>
+
+<div class="wrap">
+  <header class="top">
+    <div>
+      <h1>專科護理師臨床實務評核</h1>
+      <p class="sub">每題 0–5 分・預設 4 分・依職級自動換算，總分滿分 100</p>
+    </div>
+    <div class="tabs" role="tablist">
+      <button id="tab-form" role="tab" aria-selected="true">填寫評核</button>
+      <button id="tab-rec" role="tab" aria-selected="false">已送出紀錄 <span id="rec-count" class="num"></span></button>
+    </div>
+  </header>
+
+  <div id="db-banner" class="banner" hidden></div>
+
+  <div id="view-form">
+    <div class="grid">
+      <div style="min-width:0">
+        <div id="edit-banner" class="banner" hidden></div>
+        <div class="card">
+          <div class="meta">
+            <label class="f" style="grid-column:span 2">受評者姓名
+              <span class="pick"><select id="f-person"><option value="">讀取人員名單中…</option></select><button class="btn" id="add-toggle" type="button">＋ 新增人員</button></span>
+            </label>
+            <label class="f">科別<input id="f-dept" value="急診醫學科"></label>
+            <label class="f">職級（選人後自動帶入）
+              <select id="f-level">
+                <option value="1">一級（NP1）</option>
+                <option value="2">二級（NP2）</option>
+                <option value="3">三級（NP3）</option>
+                <option value="4">四級（NP4）</option>
+                <option value="5">五級（NP5）</option>
+              </select>
+            </label>
+            <label class="f">評值考核者<input id="f-evaluator" placeholder="姓名"></label>
+            <label class="f">評核日期<input id="f-date" type="date"></label>
+          </div>
+          <div id="add-panel" class="addp" hidden>
+            <label class="f">新人員姓名<input id="n-name" placeholder="姓名"></label>
+            <label class="f">職級<select id="n-level"><option value="1">一級</option><option value="2">二級</option><option value="3">三級</option><option value="4">四級</option><option value="5">五級</option></select></label>
+            <label class="f">科別<input id="n-dept" value="急診醫學科"></label>
+            <span class="addbtns"><button class="btn primary" id="n-save" type="button">加入名單</button><button class="btn" id="n-cancel" type="button">取消</button></span>
+            <p id="n-msg" class="msg" hidden></p>
+          </div>
+          <div class="quick">
+            全部套用：
+            <button class="btn" data-all="100">全部 5 分</button>
+            <button class="btn" data-all="80">全部 4 分</button>
+            <button class="btn" data-all="60">全部 3 分</button>
+            <span class="hint">5＝100%・4＝80%・3＝60%・2＝40%・1＝20%・0＝0%</span>
+          </div>
+        </div>
+        <div id="sections"></div>
+      </div>
+
+      <aside class="panel">
+        <div class="card score">
+          <div>
+            <div class="hint">總分</div>
+            <div class="big num"><span id="total">0</span><small> / 100</small></div>
+          </div>
+          <div id="grade" class="grade">—</div>
+          <div class="subs" id="subs"></div>
+        </div>
+        <div class="card">
+          <div class="cm">
+            <div class="cm-h">
+              <h3>評語</h3>
+              <button class="btn" id="regen">依分數重新產生</button>
+            </div>
+            <p class="hint" id="cm-hint">評語會跟著分數自動產生；手動修改後就不再覆蓋。</p>
+            <textarea id="f-comment"></textarea>
+            <details>
+              <summary>評語片語庫（點一下加入）</summary>
+              <div id="lib"></div>
+            </details>
+          </div>
+          <p id="msg" class="msg" hidden></p>
+          <div class="actions">
+            <button class="btn" id="reset">清空表單</button>
+            <button class="btn primary" id="submit">送出評核</button>
+          </div>
+        </div>
+      </aside>
+    </div>
+    <div class="mbar">
+      <div><span class="hint">總分</span> <span class="num" id="m-total">0</span> <span id="m-grade" class="pill">—</span></div>
+      <button class="btn primary" id="m-submit">送出評核</button>
+    </div>
+  </div>
+
+  <div id="view-rec" hidden>
+    <div class="card">
+      <div class="rec-tools">
+        <input id="q" placeholder="搜尋姓名、考核者">
+        <select id="q-level" style="max-width:140px">
+          <option value="">全部職級</option>
+          <option value="1">一級</option><option value="2">二級</option><option value="3">三級</option><option value="4">四級</option><option value="5">五級</option>
+        </select>
+        <span class="sp"></span>
+        <button class="btn" id="reload">重新整理</button>
+        <button class="btn" id="export">匯出 CSV（Excel）</button>
+      </div>
+      <div class="tbl"><table>
+        <thead><tr><th>姓名</th><th>科別</th><th>職級</th><th class="r">總分</th><th>等第</th><th>考核者</th><th>日期</th><th></th></tr></thead>
+        <tbody id="rows"></tbody>
+      </table></div>
+      <div id="rec-empty" class="empty">還沒有送出的評核。到「填寫評核」完成第一份後，會出現在這裡。</div>
+      <p id="rec-msg" class="msg" hidden></p>
+    </div>
+  </div>
+</div>
+
+<script>
+const PCTS=[100,80,60,40,20,0];
+const QUANT_A=["每位病人皆做到","85–99%","70–84%","60–69%","50–59%","未達50%"];
+const QUANT_B=["90%以上","80–89%","70–79%","60–69%","50–59%","未達50%"];
+const SECTIONS=[
+ {k:"A",cn:"壹",name:"醫療照護",items:[
+  {id:"a1",n:"病人疾病之掌控及主動追蹤",d:QUANT_A},
+  {id:"a2",n:"疾病判斷及評估能力（鑑別診斷、查房報告）",d:QUANT_A},
+  {id:"a3",n:"檢查排程與檢驗結果之掌控",d:QUANT_A},
+  {id:"a4",n:"病歷書寫能力",d:QUANT_A},
+  {id:"a5",n:"檢查、檢驗異常結果之緊急處理",d:QUANT_A},
+  {id:"a6",n:"照護計畫執行能力（評值與調整）",d:QUANT_A},
+  {id:"a7",n:"醫師指導下完成輔助性醫療行為",d:QUANT_A},
+  {id:"a8",n:"病患衛教指導能力",d:QUANT_A},
+  {id:"a9",n:"與病人、家屬互動溝通能力",d:QUANT_A},
+  {id:"a10",n:"資源運用能力",d:QUANT_A}]},
+ {k:"B",cn:"貳",name:"專科知識及確保照護品質",items:[
+  {id:"b1",n:"專科知識學習動機",d:["90%以上主動且非常積極","80–89%主動且積極","70–79%主動積極","60–69%主動","須經常提醒","須經常提醒（50%以上）"]},
+  {id:"b2",n:"學術研究應用能力（實證與研究分析）",d:QUANT_B},
+  {id:"b3",n:"品質監控能力",d:["監測並改善品質","參與指引與標準修訂","參與指引與標準修訂","能監測及評值","能監測品質","未監測照護品質"]}]},
+ {k:"C",cn:"參",name:"溝通協調及工作態度",items:[
+  {id:"c1",n:"醫療團隊間之合作與溝通",d:QUANT_B},
+  {id:"c2",n:"工作態度",d:["親切有禮、受讚許、有表揚","很親切、常主動打招呼","客氣、工作認真","可接受意見、完成份內工作","可完成份內工作但須提醒","不積極、無法接受意見"]}]},
+ {k:"D",cn:"肆",name:"臨床指導及教育輔導能力",items:[
+  {id:"d1",n:"參與專科在職訓練課程",d:["設計並授課3堂以上","設計或授課3堂","授課2堂","授課1堂","關心但未授課","未參與"]},
+  {id:"d2",n:"輔導與指導新進人員之評值",d:QUANT_B}]},
+ {k:"E",cn:"伍",name:"專業角色及領導能力",items:[
+  {id:"e1",n:"危機應變能力",d:QUANT_B},
+  {id:"e2",n:"同儕及團隊其他成員評值",d:QUANT_B},
+  {id:"e3",n:"決策能力",d:["全部適當且有績效","80–99%","70–84%","60–69%","50–59%","未達50%"]},
+  {id:"e4",n:"參與進階護理執業之決策或公共活動",d:["90%以上積極並任組長","80–89%積極參與","70–79%參與","60–69%參與","參與但不瞭解決策","不參與"]}]}
+];
+const LEVEL_CN=["","一級","二級","三級","四級","五級"];
+// points per item for each level; 0 = not evaluated
+function weight(level,id){
+  const s=id[0], n=+id.slice(1); level=+level;
+  if(s==="b") return 10;
+  if(s==="c") return 5;
+  if(level<=2){ if(s==="a") return 5; if(s==="d"||s==="e") return n===1?5:0; }
+  if(level===3){ if(s==="a") return 4; if(s==="d") return 5; if(s==="e") return 2.5; }
+  if(s==="a") return 3; if(s==="d") return 5; if(s==="e") return 5;
+  return 0;
+}
+function gradeOf(t){return t>=90?"優":t>=85?"良":t>=75?"甲":t>=60?"乙":"丙";}
+function fmt(x){return Number.isInteger(x)?String(x):x.toFixed(1);}
+
+// ---- comment library ----
+const OPEN={
+ "優":"臨床能力優異，能獨立且主動完成急診病人之評估、處置與追蹤，表現深獲醫療團隊肯定。",
+ "良":"臨床表現良好，能掌握病人病情並主動追蹤，與醫療團隊合作順暢。",
+ "甲":"臨床表現穩定，能完成份內醫療照護工作，整體表現符合職級要求。",
+ "乙":"臨床表現尚可，部分能力仍有進步空間，建議由負責醫師持續指導。",
+ "丙":"臨床表現未達職級要求，建議擬定個別輔導計畫並定期追蹤成效。"};
+const STRENGTH={
+ A:"病情掌控與鑑別診斷能力佳，能主動追蹤檢查結果並及時處理異常。",
+ B:"學習動機強，能將實證知識應用於臨床並參與品質改善。",
+ C:"與醫師及單位同仁溝通協調良好，工作態度積極認真。",
+ D:"積極參與在職教育，指導新進人員具耐心。",
+ E:"面對急診危急狀況能沉著應變，決策適當。"};
+const SUGGEST_SEC={
+ A:"建議持續精進鑑別診斷思維，查房時以更有系統的方式報告病人重點。",
+ B:"建議參與科內讀書會或期刊討論，並嘗試投入品質改善專案。",
+ C:"建議更主動與醫療團隊及家屬溝通，促進照護共識。",
+ D:"建議參與在職訓練課程之設計或授課，累積教學經驗。",
+ E:"建議於急救或壅塞情境中主動承擔協調角色，培養領導能力。"};
+const SUGGEST_ITEM={
+ a1:"建議建立個人追蹤清單，主動追蹤病人病情變化與待辦事項。",
+ a2:"建議加強病史詢問與理學檢查之完整性，並練習提出鑑別診斷。",
+ a3:"建議留意檢查排程與報告時效，避免延誤處置。",
+ a4:"病歷記載宜更完整，涵蓋評估、檢查結果、病程與照護計畫。",
+ a5:"對異常檢查、檢驗值應及時判讀並立即通報負責醫師。",
+ a6:"建議定期評值照護計畫成效，並依病情變化即時調整。",
+ a7:"建議熟練常規輔助性醫療技術，必要時主動尋求醫師指導。",
+ a8:"衛教內容可依病人理解程度調整，並確認病人學習成效。",
+ a9:"建議多主動關懷病人及家屬，說明病情時更有耐心。",
+ a10:"建議熟悉院內社工、出院準備等資源，協助病人取得所需支持。",
+ b1:"建議主動參與專科學習活動，提升自我學習動機。",
+ b2:"建議於報告中多引用實證文獻，提升學術應用能力。",
+ b3:"建議參與單位品質指標監測，並提出改善建議。",
+ c1:"建議與醫療團隊保持適時溝通，主動回報病人狀況。",
+ c2:"工作態度宜更積極主動，並虛心接受他人意見。",
+ d1:"建議參與在職訓練課程之規劃或授課。",
+ d2:"建議加強對新進人員之輔導技巧，並定期給予回饋。",
+ e1:"建議熟悉急救流程，提升危機情境下之應變能力。",
+ e2:"建議多與同儕互動合作，提升團隊評價。",
+ e3:"建議善用資訊系統輔助臨床決策，並考量成本效益。",
+ e4:"建議參與進階護理相關委員會或公共事務。"};
+const GENERAL=["請持續保持，可作為單位同仁之學習典範。","具備晉升進階職級之潛力，建議規劃專科進階發展。","整體表現穩定，期許未來能承擔更多教學與品質改善角色。","近期表現進步明顯，值得肯定。"];
+
+// ---- state ----
+let level=1, scores={}, editingId=null, commentDirty=false, records=[], mcp=null, people=[];
+// ---- Airtable ----
+const BASE="apptEZJz5uzSIQEYu", T_PEOPLE="tbloehMMbeacg9KgT", T_EVAL="tbl6PLd6Q4FtVDZF2";
+const FP={name:"fldxOHmYzDWBH6s0r",level:"fld45ENcRwApZ2DI4",dept:"fldTChohtVtxfjBTP",active:"fldciOuT7mSLUtTcR"};
+const FE={summary:"fldYSlsR6TNCaNSK3",name:"fldjwluFJuNa7mVM1",level:"fldHEr6b1gE0G0utx",dept:"fldZwRjHvNwkMh6jW",evaluator:"fldCJYkpYmkCkftKG",date:"fldVFvDOxlSgrcZXK",total:"fldqiBE0YkMTxUcEd",grade:"fldtk3sprT8HFMVO8",comment:"fld9OG1VB2xCvU01C",person:"fldvXCKj7d4nNlxUg"};
+const FSUB={A:"fldjDSXT1Sk8oYPvh",B:"fldUtm4Wl0rVC779I",C:"fldSBKkpd7skmb9QK",D:"flduPQcWFnCZc4YlP",E:"fldCDglXaHh4xlQuD"};
+const FITEM={a1:"fldWRyD0pOyeBHRba",a2:"fldAaTafprWdO5zfr",a3:"fld1pAlS7Lk333OOP",a4:"fldiVSlXFm8kRzTuU",a5:"flddExnscwSZnPMoC",a6:"fldzScpvSS6vFrd2n",a7:"fldJ0ifmFEVA5y3t4",a8:"fldmUUIqxHSsDbm6z",a9:"fldsUzLjvejZTFvfH",a10:"fldF8BqB9D3kR0FjW",b1:"fld4vw3bCGIcVYozA",b2:"fldhcx4NFsqrzujCS",b3:"fldp1pv0UXGfkIs6S",c1:"fldghHAwdCoC9Xl3W",c2:"flduQctomHKKJT8ab",d1:"fldWDXDObunMbG2Zm",d2:"fldId2x97NQOHHARM",e1:"fldBhJ3Wbkb5TcjsG",e2:"fld4rRYmR1QjqT3DW",e3:"fld3DVsm1z98mtG0g",e4:"fldusvuZudqrDdZco"};
+const selName=v=>v&&typeof v==="object"?v.name:v;
+const linkId=v=>Array.isArray(v)&&v.length?(typeof v[0]==="string"?v[0]:v[0].id):"";
+async function at(tool,input){const r=await mcp.callTool("Airtable",tool,{baseId:BASE,...input},{cache:false});return r.payload||{};}
+async function listAll(tableId){
+  let out=[],cursor;
+  for(let i=0;i<20;i++){const p=await at("list_records_for_table",{tableId,pageSize:1000,...(cursor?{cursor}:{})});out=out.concat(p.records||[]);cursor=p.nextCursor;if(!cursor)break;}
+  return out;
+}
+function errText(e){
+  const c=e&&e.code;
+  if(c==="server_not_connected"||c==="selection_required")return "尚未連接 Airtable：請到 claude.ai 設定 → 連接器 加入 Airtable，再重新開啟此頁。";
+  if(c==="needs_reauth")return "Airtable 連線已過期：請到 claude.ai 設定 → 連接器 重新連接 Airtable。";
+  if(c==="not_in_manifest")return "此頁未獲准使用 Airtable：請在頁面的權限設定中允許 Airtable。";
+  if(c==="tool_error")return "Airtable 回報錯誤，可能是你沒有這個資料庫的權限，請聯絡管理者把你加入「專科護理師臨床實務評核」資料庫。";
+  return "連線 Airtable 失敗（"+(c||"未知錯誤")+"），請稍後再試。";
+}
+async function loadPeople(){
+  const recs=await listAll(T_PEOPLE);
+  people=recs.map(r=>{const c=r.cellValuesByFieldId||{};return {id:r.id,name:c[FP.name]||"",level:Math.max(1,LEVEL_CN.indexOf(selName(c[FP.level]))),dept:c[FP.dept]||""};})
+    .filter(p=>p.name).sort((a,b)=>a.level-b.level||a.name.localeCompare(b.name,"zh-Hant"));
+  renderPeople();
+}
+function renderPeople(sel){
+  const cur=sel??$("f-person").value;
+  $("f-person").innerHTML=`<option value="">— 選擇受評者（${people.length} 人）—</option>`+[1,2,3,4,5].map(l=>{
+    const g=people.filter(p=>p.level===l); if(!g.length) return "";
+    return `<optgroup label="${LEVEL_CN[l]}">${g.map(p=>`<option value="${p.id}">${esc(p.name)}</option>`).join("")}</optgroup>`;}).join("");
+  $("f-person").value=people.some(p=>p.id===cur)?cur:"";
+}
+function applyPerson(){
+  const p=people.find(x=>x.id===$("f-person").value); if(!p) return;
+  if(p.level!==level){level=p.level;$("f-level").value=level;buildSections();recalc();}
+  if(p.dept)$("f-dept").value=p.dept;
+}
+async function addPerson(){
+  const name=$("n-name").value.trim(), lv=+$("n-level").value, dept=$("n-dept").value.trim();
+  if(!name){say($("n-msg"),"請輸入姓名。","err");return;}
+  const dup=people.find(p=>p.name===name);
+  if(dup){$("add-panel").hidden=true;renderPeople(dup.id);applyPerson();return;}
+  if(!mcp){say($("n-msg"),"尚未連上 Airtable，無法新增。","err");return;}
+  $("n-save").disabled=true;
+  try{
+    const p=await at("create_records_for_table",{tableId:T_PEOPLE,records:[{fields:{[FP.name]:name,[FP.level]:LEVEL_CN[lv],[FP.dept]:dept,[FP.active]:true}}]});
+    const id=p.records?.[0]?.id; if(!id) throw {code:"tool_error"};
+    people.push({id,name,level:lv,dept}); people.sort((a,b)=>a.level-b.level||a.name.localeCompare(b.name,"zh-Hant"));
+    renderPeople(id); applyPerson(); $("add-panel").hidden=true; $("n-name").value=""; $("n-msg").hidden=true;
+    say($("msg"),`已將 ${name}（${LEVEL_CN[lv]}）加入人員名單。`,"ok");
+  }catch(e){say($("n-msg"),errText(e),"err");}
+  finally{$("n-save").disabled=false;}
+}
+async function loadRecords(){
+  const recs=await listAll(T_EVAL);
+  records=recs.map(r=>{const c=r.cellValuesByFieldId||{};const sc={};
+    Object.entries(FITEM).forEach(([k,f])=>{if(typeof c[f]==="number")sc[k]=c[f]*20;});
+    return {id:r.id,personId:linkId(c[FE.person]),name:c[FE.name]||"",level:Math.max(1,LEVEL_CN.indexOf(selName(c[FE.level]))),dept:c[FE.dept]||"",
+      evaluator:c[FE.evaluator]||"",date:c[FE.date]||"",total:c[FE.total]??0,grade:selName(c[FE.grade])||"",comment:c[FE.comment]||"",scores:sc,
+      subs:Object.fromEntries(Object.entries(FSUB).map(([k,f])=>[k,c[f]??""])),created:r.createdTime||""};})
+    .sort((a,b)=>(b.date||"").localeCompare(a.date||"")||(b.created||"").localeCompare(a.created||""));
+  renderRecords();
+}
+const $=id=>document.getElementById(id);
+
+function allItems(){return SECTIONS.flatMap(s=>s.items);}
+function defaultScores(p=80){const o={};allItems().forEach(i=>o[i.id]=p);return o;}
+
+function buildSections(){
+  const host=$("sections"); host.innerHTML="";
+  SECTIONS.forEach(sec=>{
+    const s=document.createElement("section"); s.className="sec card";
+    const max=sec.items.reduce((a,i)=>a+weight(level,i.id),0);
+    s.innerHTML=`<div class="sec-h"><h2><b>${sec.cn}</b>${sec.name}</h2><span class="num" id="sub-${sec.k}"></span></div>`;
+    sec.items.forEach((it,idx)=>{
+      const w=weight(level,it.id);
+      const row=document.createElement("div"); row.className="item"+(w?"":" na"); row.dataset.id=it.id;
+      row.innerHTML=`<span class="no">${idx+1}</span><span class="nm">${it.n}${w?`<span class="pts num" data-pts></span><span class="ds" data-ds></span>`:""}</span>`;
+      if(w){
+        const seg=document.createElement("div"); seg.className="seg";
+        PCTS.forEach(p=>{const b=document.createElement("button");b.type="button";b.textContent=p/20;b.title=p+"%";b.dataset.p=p;b.addEventListener("click",()=>{scores[it.id]=p;refreshRow(row);recalc();});seg.appendChild(b);});
+        row.appendChild(seg);
+      }
+      s.appendChild(row);
+    });
+    host.appendChild(s);
+  });
+  document.querySelectorAll(".item").forEach(refreshRow);
+}
+function refreshRow(row){
+  const id=row.dataset.id, w=weight(level,id); if(!w) return;
+  const p=scores[id], it=allItems().find(i=>i.id===id);
+  row.querySelectorAll(".seg button[data-p]").forEach(b=>{b.classList.toggle("on",+b.dataset.p===p);});
+  row.querySelector("[data-pts]").textContent=` ${fmt(w*p/100)} / ${fmt(w)}`;
+  row.querySelector("[data-ds]").textContent=it.d[PCTS.indexOf(p)];
+}
+function compute(){
+  const subs={}; let total=0;
+  SECTIONS.forEach(sec=>{let got=0,max=0;sec.items.forEach(i=>{const w=weight(level,i.id);max+=w;got+=w*(scores[i.id]??0)/100;});subs[sec.k]={got,max};total+=got;});
+  total=Math.round(total*10)/10;
+  return {subs,total,grade:gradeOf(total)};
+}
+function recalc(){
+  const r=compute();
+  $("total").textContent=fmt(r.total); $("m-total").textContent=fmt(r.total);
+  const g=$("grade"); g.textContent=r.grade; g.className="grade g-"+r.grade;
+  const mg=$("m-grade"); mg.textContent=r.grade; mg.className="pill g-"+r.grade;
+  $("subs").innerHTML=SECTIONS.map(s=>`<div>${s.cn}<span class="num">${fmt(r.subs[s.k].got)}</span>/${fmt(r.subs[s.k].max)}</div>`).join("");
+  SECTIONS.forEach(s=>{const el=$("sub-"+s.k);if(el)el.textContent=`小計 ${fmt(r.subs[s.k].got)} / ${fmt(r.subs[s.k].max)}`;});
+  if(!commentDirty) $("f-comment").value=autoComment(r);
+}
+function autoComment(r){
+  const parts=[OPEN[r.grade]];
+  // strengths: sections averaging >= 90%
+  SECTIONS.forEach(s=>{const it=s.items.filter(i=>weight(level,i.id));const avg=it.reduce((a,i)=>a+scores[i.id],0)/it.length;if(avg>=90)parts.push(STRENGTH[s.k]);});
+  const sug=[];
+  allItems().forEach(i=>{if(weight(level,i.id)&&scores[i.id]<=60)sug.push(SUGGEST_ITEM[i.id]);});
+  if(!sug.length){
+    let low=null,lowAvg=101;
+    SECTIONS.forEach(s=>{const it=s.items.filter(i=>weight(level,i.id));const avg=it.reduce((a,i)=>a+scores[i.id],0)/it.length;if(avg<lowAvg){lowAvg=avg;low=s.k;}});
+    if(lowAvg<100) sug.push(SUGGEST_SEC[low]); else sug.push(GENERAL[0]);
+  }
+  return parts.join("")+"\n建議："+sug.slice(0,3).join("");
+}
+function buildLib(){
+  const grp=(title,arr)=>`<div class="grp">${title}</div><div class="chips">${arr.map(t=>`<button type="button">${t}</button>`).join("")}</div>`;
+  $("lib").innerHTML=grp("整體評價",Object.values(OPEN))+grp("優點",Object.values(STRENGTH))+grp("建議",Object.values(SUGGEST_SEC))+grp("其他",GENERAL);
+  $("lib").addEventListener("click",e=>{const b=e.target.closest("button");if(!b)return;const ta=$("f-comment");ta.value=(ta.value?ta.value.replace(/\s*$/,"")+"\n":"")+b.textContent;markDirty();});
+}
+function markDirty(){commentDirty=true;$("cm-hint").textContent="已手動修改，分數變動不會覆蓋評語。按「依分數重新產生」可重來。";}
+
+function today(){const d=new Date();return d.getFullYear()+"-"+String(d.getMonth()+1).padStart(2,"0")+"-"+String(d.getDate()).padStart(2,"0");}
+function resetForm(keepEvaluator=true){
+  editingId=null; scores=defaultScores(80); commentDirty=false;
+  $("f-person").value=""; $("f-date").value=today();
+  if(!keepEvaluator) $("f-evaluator").value="";
+  $("edit-banner").hidden=true; $("submit").textContent="送出評核"; $("m-submit").textContent="送出評核";
+  $("cm-hint").textContent="評語會跟著分數自動產生；手動修改後就不再覆蓋。";
+  buildSections(); recalc();
+}
+function loadRecord(r,asTemplate){
+  editingId=asTemplate?null:r.id;
+  level=+r.level; $("f-level").value=level;
+  scores=Object.assign(defaultScores(80),r.scores||{});
+  $("f-dept").value=r.dept||""; $("f-evaluator").value=r.evaluator||"";
+  $("f-person").value=asTemplate?"":(r.personId||""); $("f-date").value=asTemplate?today():(r.date||today());
+  if(asTemplate){commentDirty=false;$("cm-hint").textContent="已套用範本分數，評語會依分數自動產生。";}
+  else{$("f-comment").value=r.comment||"";commentDirty=true;$("cm-hint").textContent="編輯中：評語保留原內容。";}
+  const b=$("edit-banner");
+  b.hidden=false; b.textContent=asTemplate?`已套用「${r.name}」的分數作為範本，填上新受評者姓名即可送出。`:`正在編輯「${r.name}」的評核，送出後會更新原紀錄。`;
+  const t=asTemplate?"送出評核":"更新評核"; $("submit").textContent=t; $("m-submit").textContent=t;
+  buildSections(); recalc(); showTab("form"); window.scrollTo({top:0});
+}
+
+function say(el,text,kind){el.hidden=false;el.textContent=text;el.className="msg "+kind;}
+async function submit(){
+  const person=people.find(p=>p.id===$("f-person").value), evaluator=$("f-evaluator").value.trim();
+  if(!person){say($("msg"),"請選擇受評者；名單沒有的話按「＋ 新增人員」。","err");$("f-person").focus();return;}
+  if(!evaluator){say($("msg"),"請填寫評值考核者。","err");$("f-evaluator").focus();return;}
+  if(!mcp){say($("msg"),"尚未連上 Airtable，評核未儲存。","err");return;}
+  const r=compute(), date=$("f-date").value;
+  const fields={[FE.summary]:`${person.name} ${date} ${fmt(r.total)}分`,[FE.name]:person.name,[FE.person]:[person.id],[FE.level]:LEVEL_CN[level],
+    [FE.dept]:$("f-dept").value.trim(),[FE.evaluator]:evaluator,[FE.date]:date||null,[FE.total]:r.total,[FE.grade]:r.grade,[FE.comment]:$("f-comment").value.trim()};
+  Object.entries(FSUB).forEach(([k,f])=>fields[f]=Math.round(r.subs[k].got*10)/10);
+  Object.entries(FITEM).forEach(([k,f])=>fields[f]=weight(level,k)?scores[k]/20:null);
+  [$("submit"),$("m-submit")].forEach(b=>b.disabled=true);
+  try{
+    if(editingId){await at("update_records_for_table",{tableId:T_EVAL,records:[{id:editingId,fields}]});say($("msg"),`已更新 ${person.name} 的評核（${fmt(r.total)} 分，${r.grade}）。`,"ok");}
+    else{await at("create_records_for_table",{tableId:T_EVAL,records:[{fields}]});say($("msg"),`已送出 ${person.name} 的評核（${fmt(r.total)} 分，${r.grade}），可直接選下一位。`,"ok");}
+    resetForm(true); loadRecords().catch(()=>{});
+  }catch(e){say($("msg"),"送出失敗："+errText(e),"err");}
+  finally{[$("submit"),$("m-submit")].forEach(b=>b.disabled=false);}
+}
+
+// ---- records ----
+function esc(s){return String(s??"").replace(/[&<>"]/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;"}[c]));}
+function renderRecords(){
+  $("rec-count").textContent=records.length?`(${records.length})`:"";
+  const q=$("q").value.trim(), lv=$("q-level").value;
+  const list=records.filter(r=>(!q||(r.name||"").includes(q)||(r.evaluator||"").includes(q))&&(!lv||String(r.level)===lv));
+  $("rec-empty").hidden=list.length>0;
+  if(records.length&&!list.length)$("rec-empty").textContent="沒有符合條件的紀錄。";
+  $("rows").innerHTML=list.map(r=>`<tr data-id="${esc(r.id)}"><td>${esc(r.name)}</td><td>${esc(r.dept)}</td><td>${LEVEL_CN[r.level]||""}</td><td class="r num">${fmt(+r.total||0)}</td><td><span class="pill g-${esc(r.grade)}">${esc(r.grade)}</span></td><td>${esc(r.evaluator)}</td><td class="num">${esc(r.date)}</td>
+   <td><div class="rowact"><button class="btn" data-act="edit">編輯</button><button class="btn" data-act="tpl">當範本</button><button class="btn danger" data-act="del">刪除</button></div></td></tr>`).join("");
+}
+$("rows").addEventListener("click",async e=>{
+  const b=e.target.closest("button[data-act]"); if(!b) return;
+  const id=b.closest("tr").dataset.id, r=records.find(x=>x.id===id); if(!r) return;
+  if(b.dataset.act==="edit") loadRecord(r,false);
+  if(b.dataset.act==="tpl") loadRecord(r,true);
+  if(b.dataset.act==="del"){
+    if(b.dataset.confirm!=="1"){b.dataset.confirm="1";b.textContent="確定刪除？";setTimeout(()=>{if(b.isConnected){b.dataset.confirm="";b.textContent="刪除";}},4000);return;}
+    try{await at("delete_records_for_table",{tableId:T_EVAL,recordIds:[id]});records=records.filter(x=>x.id!==id);renderRecords();}catch(err){say($("rec-msg"),"刪除失敗："+errText(err),"err");}
+  }
+});
+async function exportCsv(){
+  const items=allItems();
+  const head=["姓名","科別","職級","評核日期","評值考核者",...items.map(i=>i.id.toUpperCase()+" "+i.n+"(0-5)"),"壹小計","貳小計","參小計","肆小計","伍小計","總分","等第","評語"];
+  const rows=records.map(r=>[r.name,r.dept,LEVEL_CN[r.level],r.date,r.evaluator,...items.map(i=>r.scores?.[i.id]!=null?r.scores[i.id]/20:""),...["A","B","C","D","E"].map(k=>r.subs?.[k]??""),r.total,r.grade,r.comment]);
+  const csv="﻿"+[head,...rows].map(row=>row.map(v=>{v=String(v??"");return /[",\n]/.test(v)?'"'+v.replace(/"/g,'""')+'"':v;}).join(",")).join("\r\n");
+  const dl=await window.claude?.use?.("downloads");
+  if(!dl){say($("rec-msg"),"這個檢視不支援下載檔案。","err");return;}
+  try{await dl.save({filename:`專師臨床實務評核_${today()}.csv`,data:csv});say($("rec-msg"),"已匯出，可用 Excel 開啟。","ok");}
+  catch(e){if(e?.code!=="declined")say($("rec-msg"),"匯出失敗："+(e?.code||""),"err");}
+}
+
+function showTab(t){
+  $("tab-form").setAttribute("aria-selected",t==="form");$("tab-rec").setAttribute("aria-selected",t==="rec");
+  $("view-form").hidden=t!=="form";$("view-rec").hidden=t!=="rec";
+}
+
+// ---- wire ----
+$("tab-form").onclick=()=>showTab("form");
+$("tab-rec").onclick=()=>showTab("rec");
+$("f-level").onchange=e=>{level=+e.target.value;buildSections();recalc();};
+document.querySelectorAll("[data-all]").forEach(b=>b.onclick=()=>{scores=defaultScores(+b.dataset.all);document.querySelectorAll(".item").forEach(refreshRow);recalc();});
+$("f-comment").addEventListener("input",markDirty);
+$("regen").onclick=()=>{commentDirty=false;$("cm-hint").textContent="評語會跟著分數自動產生；手動修改後就不再覆蓋。";recalc();};
+$("reset").onclick=()=>resetForm(true);
+$("submit").onclick=submit; $("m-submit").onclick=submit;
+$("q").oninput=renderRecords; $("q-level").onchange=renderRecords;
+$("export").onclick=exportCsv;
+try{const ev=localStorage.getItem("np-evaluator");if(ev)$("f-evaluator").value=ev;}catch(e){}
+$("f-evaluator").addEventListener("change",e=>{try{localStorage.setItem("np-evaluator",e.target.value.trim());}catch(_){}});
+
+buildLib(); resetForm(true); renderRecords();
+
+$("f-person").onchange=applyPerson;
+$("add-toggle").onclick=()=>{$("add-panel").hidden=!$("add-panel").hidden;$("n-level").value=level;if(!$("add-panel").hidden)$("n-name").focus();};
+$("n-cancel").onclick=()=>{$("add-panel").hidden=true;};
+$("n-save").onclick=addPerson;
+$("n-name").addEventListener("keydown",e=>{if(e.key==="Enter")addPerson();});
+$("reload").onclick=()=>{if(mcp)Promise.all([loadPeople(),loadRecords()]).then(()=>{$("rec-msg").hidden=true;}).catch(e=>say($("rec-msg"),errText(e),"err"));};
+
+(async()=>{
+  mcp=await window.claude?.use?.("mcp");
+  const ban=$("db-banner");
+  if(!mcp){ban.hidden=false;ban.className="banner warn";ban.textContent="這個檢視無法連線 Airtable：可以試算分數，但無法送出。請登入 claude.ai 並連接 Airtable 後開啟此頁。";$("f-person").innerHTML='<option value="">無法讀取名單</option>';return;}
+  try{await loadPeople();}catch(e){ban.hidden=false;ban.className="banner warn";ban.textContent=errText(e);$("f-person").innerHTML='<option value="">無法讀取名單</option>';return;}
+  try{await loadRecords();}catch(e){say($("rec-msg"),errText(e),"err");}
+})();
+</script>
+
+</body></html>
